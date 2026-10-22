@@ -43,6 +43,32 @@
         </pages>
 
     </antelopes>
+    <antelope-locations>
+        <label>Antelope Locations</label>
+        <title>Antelope Locations</title>
+        <icon>fa-map-marker</icon>
+        <bundle>antelope-location-gui</bundle>
+        <controller>index</controller>
+        <action>index</action>
+        <pages>
+            <antelope-location-create-page>
+                <label>Create Antelope Location</label>
+                <title>Create Antelope Location</title>
+                <bundle>antelope-location-gui</bundle>
+                <controller>index</controller>
+                <action>create</action>
+                <visible>0</visible>
+            </antelope-location-create-page>
+            <antelope-location-edit-page>
+                <label>Edit Antelope Location</label>
+                <title>Edit Antelope Location</title>
+                <bundle>antelope-location-gui</bundle>
+                <controller>index</controller>
+                <action>edit</action>
+                <visible>0</visible>
+            </antelope-location-edit-page>
+        </pages>
+    </antelope-locations>
     <sales>
         <label>Sales</label>
         <uri>/sales</uri>

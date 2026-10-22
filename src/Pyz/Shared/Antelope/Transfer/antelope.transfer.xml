@@ -6,7 +6,7 @@
     <transfer name="Antelope">
         <property name="idAntelope" type="int"/>
         <property name="name" type="string"/>
-        <property name="idLocation" type="int"/>
+        <property name="fkAntelopeLocation" type="int"/>
     </transfer>
     <transfer name="AntelopeCriteria">
         <property name="name" type="string"/>

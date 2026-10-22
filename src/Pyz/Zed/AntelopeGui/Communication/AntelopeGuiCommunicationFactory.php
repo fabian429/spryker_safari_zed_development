@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Pyz\Zed\AntelopeGui\Communication;
 
 use Generated\Shared\Transfer\AntelopeTransfer;
+use Orm\Zed\Antelope\Persistence\PyzAntelopeLocationQuery;
 use Orm\Zed\Antelope\Persistence\PyzAntelopeQuery;
 use Pyz\Zed\Antelope\Business\AntelopeFacadeInterface;
 use Pyz\Zed\AntelopeGui\AntelopeGuiConfig;
 use Pyz\Zed\AntelopeGui\AntelopeGuiDependencyProvider;
 use Pyz\Zed\AntelopeGui\Communication\Form\AntelopeCreateForm;
+use Pyz\Zed\AntelopeGui\Communication\Form\DataProvider\AntelopeCreateFormDataProvider;
 use Pyz\Zed\AntelopeGui\Communication\Table\AntelopeTable;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException;
@@ -39,6 +41,14 @@ class AntelopeGuiCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
+     * @throws ContainerKeyNotFoundException
+     */
+    public function getAntelopeLocationPropelQuery(): PyzAntelopeLocationQuery
+    {
+        return $this->getProvidedDependency(AntelopeGuiDependencyProvider::PROPEL_QUERY_ANTELOPE_LOCATION);
+    }
+
+    /**
      * @param AntelopeTransfer $antelopeTransfer
      * @param array $options <string,mixed>
      * @return FormInterface
@@ -50,7 +60,17 @@ class AntelopeGuiCommunicationFactory extends AbstractCommunicationFactory
         return $this->getFormFactory()->create(
             AntelopeCreateForm::class,
             $antelopeTransfer,
-            $options
+            array_merge($this->createAntelopeCreateFormDataProvider()->getOptions(), $options)
+        );
+    }
+
+    /**
+     * @throws ContainerKeyNotFoundException
+     */
+    public function createAntelopeCreateFormDataProvider(): AntelopeCreateFormDataProvider
+    {
+        return new AntelopeCreateFormDataProvider(
+            $this->getAntelopeLocationPropelQuery()
         );
     }
 
