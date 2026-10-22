@@ -2,6 +2,8 @@
 
 namespace Pyz\Zed\Antelope\Business\AntelopeLocation\Reader;
 
+use Generated\Shared\Transfer\AntelopeLocationCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationResponseTransfer;
 use Generated\Shared\Transfer\AntelopeLocationTransfer;
 use Pyz\Zed\Antelope\Persistence\AntelopeRepositoryInterface;
 
@@ -17,5 +19,20 @@ class AntelopeLocationReader
     ): AntelopeLocationTransfer {
         return $this->antelopeRepository->getAntelopeLocationByID($idLocation);
 
+    }
+
+    public function getAntelopeLocation(
+        AntelopeLocationCriteriaTransfer $antelopeLocationCriteriaTransfer
+    ): AntelopeLocationResponseTransfer {
+        $antelopeLocationTransfer = $this->antelopeRepository->getAntelopeLocation(
+            $antelopeLocationCriteriaTransfer,
+        );
+        $antelopeLocationResponseTransfer = new AntelopeLocationResponseTransfer();
+        $antelopeLocationResponseTransfer->setIsSuccessFul(false);
+        if ($antelopeLocationTransfer) {
+            $antelopeLocationResponseTransfer->setAntelopeLocation($antelopeLocationTransfer);
+            $antelopeLocationResponseTransfer->setIsSuccessFul(true);
+        }
+        return $antelopeLocationResponseTransfer;
     }
 }

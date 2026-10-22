@@ -1,0 +1,9 @@
+{% extends '@Gui/Layout/layout.twig' %}
+
+{% block content %}
+    {% if locationResponse.isSuccessful %}
+        <h1>Location #{{ locationResponse.antelopeLocation.idLocation }}: <b>{{ locationResponse.antelopeLocation.locationName }}</b></h1>
+    {% else %}
+        <h1>No antelope location found.</h1>
+    {% endif %}
+{% endblock %}
