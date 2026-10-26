@@ -1,3 +1,4 @@
+
 <?xml version="1.0"?>
 <statemachine
 xmlns="spryker:oms-01"
@@ -17,8 +18,7 @@ xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
         </states>
 
         <transitions>
-            
-            <transition condition="Demo/IsAuthorized">
+            <transition condition="Demo/IsAuthorized" happy="true">
                 <source>new</source>
                 <target>paid</target>
                 <event>pay</event>
@@ -29,31 +29,31 @@ xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
                 <target>unauthorized</target>
                 <event>pay</event>
             </transition>
-        
-            <transition>
+
+            <transition happy="true">
                 <source>paid</source>
                 <target>shipped</target>
                 <event>ship</event>
             </transition>
-         
+
             <transition>
                 <source>shipped</source>
                 <target>returned</target>
                 <event>return</event>
             </transition>
-         
+
             <transition>
                 <source>returned</source>
                 <target>refunded</target>
                 <event>refund</event>
             </transition>
-         
-            <transition>
+
+            <transition happy="true">
                 <source>shipped</source>
                 <target>closed</target>
                 <event>close</event>
             </transition>
-         
+
             <transition>
                 <source>refunded</source>
                 <target>closed</target>
@@ -62,7 +62,6 @@ xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
         </transitions>
 
         <events>
-            <event name="pay" onEnter="true" />
             <event name="pay" onEnter="true" command="Demo/Pay" />
             <event name="ship" manual="true" />
             <event name="return" manual="true" />
