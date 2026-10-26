@@ -17,6 +17,7 @@ use Spryker\Shared\GlueStorefrontApiApplication\GlueStorefrontApiApplicationCons
 use Spryker\Shared\Kernel\KernelConstants;
 use Spryker\Shared\Log\LogConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
+use Spryker\Shared\Oms\OmsConstants;
 use Spryker\Shared\OauthClient\OauthClientConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
@@ -154,6 +155,9 @@ if (!getenv('SPRYKER_SSL_ENABLE')) {
 // ----------------------------------------------------------------------------
 
 require 'common/config_oms-development.php';
+
+// Parse OMS XML on every request so changes show up after a page reload.
+$config[OmsConstants::ENABLE_PROCESS_CACHE] = false;
 
 // ----------------------------------------------------------------------------
 // ------------------------------ OAUTH ---------------------------------------
