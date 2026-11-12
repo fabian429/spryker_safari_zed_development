@@ -29,6 +29,13 @@ class AntelopeLocationUpdater implements AntelopeLocationUpdaterInterface
         AntelopeLocationBackendApiAttributesTransfer $antelopeLocationBackendApiAttributesTransfer,
         GlueRequestTransfer $glueRequestTransfer,
     ): GlueResponseTransfer {
+        if (!$antelopeLocationBackendApiAttributesTransfer->getLocationName()) {
+            return $this->antelopeLocationResponseBuilder->createErrorResponse(
+                Response::HTTP_BAD_REQUEST,
+                'Attribute "locationName" is required.',
+            );
+        }
+
         $antelopeLocationTransfer = $this->antelopeLocationMapper->mapAntelopeLocationBackendApiAttributesToAntelopeLocationTransfer(
             $antelopeLocationBackendApiAttributesTransfer,
             new AntelopeLocationTransfer(),
@@ -40,7 +47,7 @@ class AntelopeLocationUpdater implements AntelopeLocationUpdaterInterface
             return $this->antelopeLocationResponseBuilder->createErrorResponse(Response::HTTP_NOT_FOUND, $exception->getMessage());
         } catch (PropelExceptionInterface $exception) {
             return $this->antelopeLocationResponseBuilder->createErrorResponse(
-                Response::HTTP_UNPROCESSABLE_ENTITY,
+                Response::HTTP_INTERNAL_SERVER_ERROR,
                 'Antelope location could not be updated.',
             );
         }

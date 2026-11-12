@@ -28,6 +28,13 @@ class AntelopeLocationCreator implements AntelopeLocationCreatorInterface
         AntelopeLocationBackendApiAttributesTransfer $antelopeLocationBackendApiAttributesTransfer,
         GlueRequestTransfer $glueRequestTransfer,
     ): GlueResponseTransfer {
+        if (!$antelopeLocationBackendApiAttributesTransfer->getLocationName()) {
+            return $this->antelopeLocationResponseBuilder->createErrorResponse(
+                Response::HTTP_BAD_REQUEST,
+                'Attribute "locationName" is required.',
+            );
+        }
+
         $antelopeLocationTransfer = $this->antelopeLocationMapper->mapAntelopeLocationBackendApiAttributesToAntelopeLocationTransfer(
             $antelopeLocationBackendApiAttributesTransfer,
             new AntelopeLocationTransfer(),
@@ -37,7 +44,7 @@ class AntelopeLocationCreator implements AntelopeLocationCreatorInterface
             $antelopeLocationTransfer = $this->antelopeFacade->createAntelopeLocation($antelopeLocationTransfer);
         } catch (PropelExceptionInterface $exception) {
             return $this->antelopeLocationResponseBuilder->createErrorResponse(
-                Response::HTTP_UNPROCESSABLE_ENTITY,
+                Response::HTTP_INTERNAL_SERVER_ERROR,
                 'Antelope location could not be created.',
             );
         }

@@ -29,8 +29,8 @@ class AntelopeLocationDeleter implements AntelopeLocationDeleterInterface
             return $this->antelopeLocationResponseBuilder->createErrorResponse(Response::HTTP_NOT_FOUND, $exception->getMessage());
         } catch (PropelExceptionInterface $exception) {
             return $this->antelopeLocationResponseBuilder->createErrorResponse(
-                Response::HTTP_CONFLICT,
-                'Antelope location is still referenced and cannot be deleted.',
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+                'Antelope location could not be deleted.',
             );
         }
 
