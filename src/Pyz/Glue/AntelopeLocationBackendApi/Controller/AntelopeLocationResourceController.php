@@ -4,45 +4,50 @@ declare(strict_types=1);
 
 namespace Pyz\Glue\AntelopeLocationBackendApi\Controller;
 
+use Generated\Shared\Transfer\AntelopeLocationBackendApiAttributesTransfer;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueResponseTransfer;
 use Spryker\Glue\Kernel\Backend\Controller\AbstractController;
 
+/**
+ * @method \Pyz\Glue\AntelopeLocationBackendApi\AntelopeLocationBackendApiFactory getFactory()
+ */
 class AntelopeLocationResourceController extends AbstractController
 {
     public function getCollectionAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
     {
-        return new GlueResponseTransfer();
+        return $this->getFactory()->createAntelopeLocationReader()->getAntelopeLocationCollection($glueRequestTransfer);
     }
 
     public function getAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
     {
-        return new GlueResponseTransfer();
+        return $this->getFactory()->createAntelopeLocationReader()->getAntelopeLocation($glueRequestTransfer);
     }
 
-    public function postAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
-    {
-        return new GlueResponseTransfer();
+    public function postAction(
+        AntelopeLocationBackendApiAttributesTransfer $antelopeLocationBackendApiAttributesTransfer,
+        GlueRequestTransfer $glueRequestTransfer,
+    ): GlueResponseTransfer {
+        return $this->getFactory()->createAntelopeLocationCreator()->createAntelopeLocation(
+            $antelopeLocationBackendApiAttributesTransfer,
+            $glueRequestTransfer,
+        );
     }
 
-    /**
-     * Updates an existing antelope location identified by the resource id in the URL.
-     */
-    public function putAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
-    {
-        return new GlueResponseTransfer();
-    }
+    public function patchAction(
+        AntelopeLocationBackendApiAttributesTransfer $antelopeLocationBackendApiAttributesTransfer,
+        GlueRequestTransfer $glueRequestTransfer,
+    ): GlueResponseTransfer {
+        $antelopeLocationBackendApiAttributesTransfer->setIdAntelopeLocation((int)$glueRequestTransfer->getResource()?->getId());
 
-    /**
-     * The backend router uses patch but in Step1 stands put
-     */
-    public function patchAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
-    {
-        return $this->putAction($glueRequestTransfer);
+        return $this->getFactory()->createAntelopeLocationUpdater()->updateAntelopeLocation(
+            $antelopeLocationBackendApiAttributesTransfer,
+            $glueRequestTransfer,
+        );
     }
 
     public function deleteAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
     {
-        return new GlueResponseTransfer();
+        return $this->getFactory()->createAntelopeLocationDeleter()->deleteAntelopeLocation($glueRequestTransfer);
     }
 }

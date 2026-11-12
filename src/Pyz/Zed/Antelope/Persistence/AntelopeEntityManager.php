@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\AntelopeLocationTransfer;
 use Generated\Shared\Transfer\AntelopeTransfer;
 use Orm\Zed\Antelope\Persistence\PyzAntelope;
 use Orm\Zed\Antelope\Persistence\PyzAntelopeLocation;
+use Pyz\Zed\Antelope\Persistence\Exception\EntityNotFoundException;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
@@ -42,5 +43,41 @@ class AntelopeEntityManager extends AbstractEntityManager implements
             $antelopeEntity->toArray(),
             true,
         );
+    }
+
+    public function updateAntelopeLocation(
+        AntelopeLocationTransfer $antelopeLocationTransfer,
+    ): AntelopeLocationTransfer {
+        $idAntelopeLocation = $antelopeLocationTransfer->getIdAntelopeLocationOrFail();
+        $antelopeLocationEntity = $this->findAntelopeLocationEntity($idAntelopeLocation);
+
+        $antelopeLocationEntity->setLocationName($antelopeLocationTransfer->getLocationName());
+        $antelopeLocationEntity->save();
+
+        return $antelopeLocationTransfer->fromArray(
+            $antelopeLocationEntity->toArray(),
+            true,
+        );
+    }
+
+    public function deleteAntelopeLocation(int $idAntelopeLocation): void
+    {
+        $this->findAntelopeLocationEntity($idAntelopeLocation)->delete();
+    }
+
+    /**
+     * @throws \Pyz\Zed\Antelope\Persistence\Exception\EntityNotFoundException
+     */
+    protected function findAntelopeLocationEntity(int $idAntelopeLocation): PyzAntelopeLocation
+    {
+        $antelopeLocationEntity = $this->getFactory()
+            ->createAntelopeLocationQuery()
+            ->findPk($idAntelopeLocation);
+
+        if ($antelopeLocationEntity === null) {
+            throw new EntityNotFoundException(sprintf('Antelope Location %d not found', $idAntelopeLocation));
+        }
+
+        return $antelopeLocationEntity;
     }
 }

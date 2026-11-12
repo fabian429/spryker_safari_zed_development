@@ -69,4 +69,15 @@ class AntelopeFacade extends AbstractFacade implements AntelopeFacadeInterface
     {
         return $this->getFactory()->createAntelopeLocationReader()->getAntelopeLocations();
     }
+
+    public function updateAntelopeLocation(
+        AntelopeLocationTransfer $antelopeLocationTransfer,
+    ): AntelopeLocationTransfer {
+        return $this->getFactory()->createAntelopeLocationWriter()->updateAntelopeLocation($antelopeLocationTransfer);
+    }
+
+    public function deleteAntelopeLocation(int $idAntelopeLocation): void
+    {
+        $this->getFactory()->createAntelopeLocationWriter()->deleteAntelopeLocation($idAntelopeLocation);
+    }
 }
